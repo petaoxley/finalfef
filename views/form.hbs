@@ -1,0 +1,25 @@
+<h1>Add Entry</h1>
+
+<form action="/entry" method="POST">
+  <label>Mood (1-10)</label>
+  <input type="number" name="mood" min="1" max="10" required>
+
+  <label>Sleep Hours</label>
+  <input type="number" name="sleepHours" required>
+
+  <label>Productivity</label>
+  <input type="number" name="productivity">
+
+  <label>Stress</label>
+  <input type="number" name="stress">
+
+  <label>Screen Time</label>
+  <input type="number" name="screenTime">
+
+  <label>Exercise</label>
+  <input type="number" name="exercise">
+
+  <textarea name="notes" placeholder="Notes..."></textarea>
+
+  <button type="submit">Save</button>
+</form>
