@@ -5,19 +5,21 @@ const calculateScore = require('./utils/score');
 
 const app = express();
 
-// middleware
+/* ---------------- MIDDLEWARE ---------------- */
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// view engine
+/* ---------------- VIEW ENGINE ---------------- */
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'views'));
 
-/* ---------------- ROUTES ---------------- */
-
-// DASHBOARD
+/* ---------------- DASHBOARD ---------------- */
 app.get('/', (req, res) => {
   db.all(`SELECT * FROM entries ORDER BY date DESC`, [], (err, rows) => {
+    if (err) {
+      console.log(err);
+      return res.send("Database error");
+    }
 
     const enriched = rows.map(entry => ({
       ...entry,
@@ -25,7 +27,7 @@ app.get('/', (req, res) => {
     }));
 
     const avgMood =
-      rows.reduce((sum, e) => sum + e.mood, 0) / (rows.length || 1);
+      rows.reduce((sum, e) => sum + Number(e.mood || 0), 0) / (rows.length || 1);
 
     res.render('dashboard', {
       entries: enriched,
@@ -34,12 +36,12 @@ app.get('/', (req, res) => {
   });
 });
 
-// FORM PAGE
+/* ---------------- ADD ENTRY PAGE ---------------- */
 app.get('/add', (req, res) => {
   res.render('form');
 });
 
-// SAVE ENTRY
+/* ---------------- SAVE ENTRY ---------------- */
 app.post('/entry', (req, res) => {
   const {
     mood,
@@ -56,13 +58,24 @@ app.post('/entry', (req, res) => {
     (mood, sleepHours, productivity, stress, screenTime, exercise, notes)
     VALUES (?, ?, ?, ?, ?, ?, ?)`,
     [mood, sleepHours, productivity, stress, screenTime, exercise, notes],
-    () => res.redirect('/')
+    (err) => {
+      if (err) {
+        console.log(err);
+        return res.send("Insert error");
+      }
+      res.redirect('/');
+    }
   );
 });
 
-// INSIGHTS PAGE (for p5)
+/* ---------------- INSIGHTS (P5 HEATMAP) ---------------- */
 app.get('/insights', (req, res) => {
   db.all(`SELECT * FROM entries`, [], (err, rows) => {
+    if (err) {
+      console.log(err);
+      return res.send("Database error");
+    }
+
     res.render('insights', {
       entries: JSON.stringify(rows)
     });
