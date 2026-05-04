@@ -2,19 +2,18 @@
 
 <div class="grid">
   <div class="card">
-    <h2>Average Mood</h2>
+    <h3>Average Mood</h3>
     <p>{{avgMood}}</p>
-  </div>
-
-  <div class="card">
-    <h2>Total Entries</h2>
-    <p>{{entries.length}}</p>
   </div>
 </div>
 
-<h2>Recent Entries</h2>
-<ul>
-  {{#each entries}}
-    <li>Mood: {{this.mood}} | Sleep: {{this.sleepHours}}</li>
-  {{/each}}
-</ul>
+<h2>Entries</h2>
+
+{{#each entries}}
+  <div class="card">
+    <p>Mood: {{mood}}</p>
+    <p>Sleep: {{sleepHours}}</p>
+    <p>Stress: {{stress}}</p>
+    <p>Wellbeing Score: {{wellbeingScore}}</p>
+  </div>
+{{/each}}

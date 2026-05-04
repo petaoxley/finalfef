@@ -1,9 +1,9 @@
 const sqlite3 = require('sqlite3').verbose();
 
-// create/open database file
+// create database file
 const db = new sqlite3.Database('./database.db');
 
-// create table if it doesn't exist
+// create table
 db.run(`
   CREATE TABLE IF NOT EXISTS entries (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
