@@ -1,0 +1,23 @@
+const mongoose = require('mongoose');
+
+const entrySchema = new mongoose.Schema({
+  mood: Number,
+  sleepHours: Number,
+  productivity: Number,
+  stress: Number,
+  screenTime: Number,
+  exercise: Number,
+  notes: String,
+  date: { type: Date, default: Date.now }
+});
+
+// VIRTUAL SCORE
+entrySchema.virtual('wellbeingScore').get(function () {
+  return (
+    this.mood * 0.4 +
+    this.sleepHours * 0.3 -
+    this.stress * 0.3
+  );
+});
+
+module.exports = mongoose.model('Entry', entrySchema);
