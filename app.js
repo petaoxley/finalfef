@@ -5,8 +5,10 @@ const hbs = require('hbs');
 
 const app = express();
 
-// CONNECT DATABASE
-mongoose.connect('mongodb://127.0.0.1:27017/habitapp');
+mongoose.connect('mongodb://127.0.0.1:27017/habitapp')
+  .then(() => console.log('Connected to DB'))
+  .catch(err => console.log(err));
+
 
 // MODEL
 const Entry = require('./models/Entry');
