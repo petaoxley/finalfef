@@ -5,15 +5,12 @@ const calculateScore = require('./utils/score');
 
 const app = express();
 
-/* ---------------- MIDDLEWARE ---------------- */
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-/* ---------------- VIEW ENGINE ---------------- */
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'views'));
 
-/* ---------------- DASHBOARD ---------------- */
 app.get('/', (req, res) => {
   db.all(`SELECT * FROM entries ORDER BY date DESC`, [], (err, rows) => {
     if (err) {
@@ -36,12 +33,11 @@ app.get('/', (req, res) => {
   });
 });
 
-/* ---------------- ADD ENTRY PAGE ---------------- */
 app.get('/add', (req, res) => {
   res.render('form');
 });
 
-/* ---------------- SAVE ENTRY ---------------- */
+
 app.post('/entry', (req, res) => {
   const {
     mood,
@@ -68,7 +64,7 @@ app.post('/entry', (req, res) => {
   );
 });
 
-/* ---------------- INSIGHTS (P5 HEATMAP) ---------------- */
+
 app.get('/insights', (req, res) => {
   db.all(`SELECT * FROM entries`, [], (err, rows) => {
     if (err) {
@@ -82,7 +78,7 @@ app.get('/insights', (req, res) => {
   });
 });
 
-/* ---------------- START SERVER ---------------- */
+
 app.listen(3000, () => {
   console.log('Running on http://localhost:3000');
 });

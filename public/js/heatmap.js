@@ -4,7 +4,6 @@ function setup() {
   createCanvas(600, 400);
   noStroke();
 
-  // safer delay loading
   data = window.entries;
 
   if (!Array.isArray(data)) {
